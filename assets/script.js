@@ -3,6 +3,11 @@ let searchBtn = document.querySelector("#search");
 let userCity = document.querySelector("#cityInput")
 let TodayWeather = document.querySelector("#todayweather");
 let forecastCard = document.querySelector("#cards");
+let form = document.querySelector("#form");
+
+
+
+
 
 searchBtn.addEventListener('click', getApi);
 
@@ -14,27 +19,27 @@ function getApi(event) {
         let requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + Citytosearch + '&appid=fe5f18ad8da81e94eabca7fc60f10944&units=metric';
         fetch(requestUrl)
             .then(function (response) {
-                return response.json();
+                return response.json(); 
             })
             .then(function (data) {
-                console.log(data);
+                localStorage.setItem("weather", JSON.stringify(data));
                 todaysWeather(data);
-                date1forecast (data);
-                date2forecast (data);
-                date3forecast (data);
-                date4forecast (data);
-                date5forecast (data);
+                date1forecast(data);
+                date2forecast(data);
+                date3forecast(data);
+                date4forecast(data);
+                date5forecast(data);
+                callingsavedData(data);
             })
     } else {
         userCity.setAttribute("placeholder", "Please enter a city name")
     }
 
-
 }
 
 
-function todaysWeather(data,cityweather) {
-    
+function todaysWeather(data, cityweather) {
+
     TodayWeather.textContent = cityweather;
 
     let date = dayjs().format('(D/MMMM/YYYY)');
@@ -53,15 +58,15 @@ function todaysWeather(data,cityweather) {
 
     headingToday.setAttribute("class", "element");
     headingToday.setAttribute("style", "display:inline-block;");
-    headingToday.innerHTML = data.city.name + " " + date ;
+    headingToday.innerHTML = data.city.name + " " + date;
 
     img.setAttribute("src", iconurl);
-    img.setAttribute("id","img");
+    img.setAttribute("id", "img");
 
     temp.setAttribute("class", "element");
     temp.setAttribute("style", "font-size:20px;");
- 
-    
+
+
     temp.innerHTML = "Temp: " + data.list[0].main.temp;
 
     wind.setAttribute("class", "element");
@@ -81,36 +86,36 @@ function todaysWeather(data,cityweather) {
     today.appendChild(humiditiy);
 }
 
-function date1forecast (data) {
-    forecastCard.classList = ("class","d-flex mt-6")
-    
+function date1forecast(data) {
+    forecastCard.classList = ("class", "d-flex mt-6")
+
     let date1li1 = document.querySelector("#date1");
     let date1img = document.querySelector("#date1img");
     let date1temp = document.querySelector("#date1temp");
     let date1wind = document.querySelector("#date1wind");
     let date1humidity = document.querySelector("#date1humidity");
-    
+
 
     let date1 = dayjs(data.list[7].dt_txt).format('D/MMMM/YYYY');
     let date1iconurl = "./assets/icons/" + data.list[7].weather[0].icon + ".png";
-   
+
     date1li1.innerHTML = date1;
     date1img.setAttribute("src", date1iconurl);
     date1temp.innerHTML = "Temp: " + data.list[7].main.temp;
-    date1wind.innerHTML = "Wind: "+ data.list[7].wind.speed + " Mph";
+    date1wind.innerHTML = "Wind: " + data.list[7].wind.speed + " Mph";
     date1humidity.innerHTML = "humidity: " + data.list[7].main.humidity;
 
-    
+
 }
 
-function date2forecast (data) {
+function date2forecast(data) {
 
     let date2li1 = document.querySelector("#date2");
     let date2img = document.querySelector("#date2img");
     let date2temp = document.querySelector("#date2temp");
     let date2wind = document.querySelector("#date2wind");
     let date2humidity = document.querySelector("#date2humidity");
-    
+
 
     let date2 = dayjs(data.list[15].dt_txt).format('D/MMMM/YYYY');
     let date2iconurl = "./assets/icons/" + data.list[15].weather[0].icon + ".png";
@@ -120,17 +125,17 @@ function date2forecast (data) {
     date2temp.innerHTML = "Temp: " + data.list[15].main.temp;
     date2wind.innerHTML = "Wind: " + data.list[15].wind.speed + " Mph";
     date2humidity.innerHTML = "humidity: " + data.list[15].main.humidity;
-    
+
 }
 
-function date3forecast (data) {
+function date3forecast(data) {
 
     let date3li1 = document.querySelector("#date3");
     let date3img = document.querySelector("#date3img");
     let date3temp = document.querySelector("#date3temp");
     let date3wind = document.querySelector("#date3wind");
     let date3humidity = document.querySelector("#date3humidity");
-    
+
 
     let date3 = dayjs(data.list[23].dt_txt).format('D/MMMM/YYYY');
     let date3iconurl = "./assets/icons/" + data.list[23].weather[0].icon + ".png";
@@ -139,17 +144,17 @@ function date3forecast (data) {
     date3temp.innerHTML = "Temp: " + data.list[23].main.temp;
     date3wind.innerHTML = "Wind: " + data.list[23].wind.speed + " Mph";
     date3humidity.innerHTML = "humidity: " + data.list[23].main.humidity;
-    
+
 }
 
-function date4forecast (data) {
+function date4forecast(data) {
 
     let date4li1 = document.querySelector("#date4");
     let date4img = document.querySelector("#date4img");
     let date4temp = document.querySelector("#date4temp");
     let date4wind = document.querySelector("#date4wind");
     let date4humidity = document.querySelector("#date4humidity");
-    
+
 
     let date4 = dayjs(data.list[31].dt_txt).format('D/MMMM/YYYY');
     let date4iconurl = "./assets/icons/" + data.list[31].weather[0].icon + ".png";
@@ -158,18 +163,18 @@ function date4forecast (data) {
     date4temp.innerHTML = "Temp: " + data.list[31].main.temp;
     date4wind.innerHTML = "Wind: " + data.list[31].wind.speed + " Mph";
     date4humidity.innerHTML = "humidity: " + data.list[31].main.humidity;
-    
-    
+
+
 }
 
-function date5forecast (data) {
+function date5forecast(data) {
 
     let date5li1 = document.querySelector("#date5");
     let date5img = document.querySelector("#date5img");
     let date5temp = document.querySelector("#date5temp");
     let date5wind = document.querySelector("#date5wind");
     let date5humidity = document.querySelector("#date5humidity");
-    
+
 
     let date5 = dayjs(data.list[39].dt_txt).format('D/MMMM/YYYY');
     let date5iconurl = "./assets/icons/" + data.list[39].weather[0].icon + ".png";
@@ -178,5 +183,21 @@ function date5forecast (data) {
     date5temp.innerHTML = "Temp: " + data.list[39].main.temp;
     date5wind.innerHTML = "Wind: " + data.list[39].wind.speed + " Mph";
     date5humidity.innerHTML = "humidity: " + data.list[39].main.humidity;
-    
+
 }
+
+
+function callingsavedData(data) {
+    let saveddata = JSON.parse(localStorage.getItem("weather"));
+    console.log(saveddata);
+    let divforsaved = document.createElement("div");
+    let buttenforsaved = document.createElement("button");
+    buttenforsaved.setAttribute("id", "buttenforsaved");
+    buttenforsaved.setAttribute("class", "btn btn-primary savedcityBtn");
+    buttenforsaved.innerHTML =  saveddata.city.name;
+    form.appendChild(divforsaved);
+    divforsaved.appendChild(buttenforsaved);
+}
+
+
+
