@@ -14,22 +14,23 @@ searchBtn.addEventListener('click', getApi);
 
 function getApi(event) {
     event.preventDefault();
-    let Citytosearch = userCity.value;
+    let result = userCity.value;
+    let Citytosearch = result.toUpperCase();
     if (Citytosearch) {
         let requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + Citytosearch + '&appid=fe5f18ad8da81e94eabca7fc60f10944&units=metric';
         fetch(requestUrl)
             .then(function (response) {
-                return response.json(); 
+                return response.json();
             })
             .then(function (data) {
-                localStorage.setItem("weather", JSON.stringify(data));
+                localStorage.setItem(Citytosearch, JSON.stringify(data));
                 todaysWeather(data);
                 date1forecast(data);
                 date2forecast(data);
                 date3forecast(data);
                 date4forecast(data);
                 date5forecast(data);
-                callingsavedData(data);
+                showingSearchedcity(data);
             })
     } else {
         userCity.setAttribute("placeholder", "Please enter a city name")
@@ -187,17 +188,37 @@ function date5forecast(data) {
 }
 
 
-function callingsavedData(data) {
-    let saveddata = JSON.parse(localStorage.getItem("weather"));
-    console.log(saveddata);
+function showingSearchedcity(data) {
     let divforsaved = document.createElement("div");
     let buttenforsaved = document.createElement("button");
-    buttenforsaved.setAttribute("id", "buttenforsaved");
+    buttenforsaved.setAttribute("id", "savedcityBtn");
     buttenforsaved.setAttribute("class", "btn btn-primary savedcityBtn");
-    buttenforsaved.innerHTML =  saveddata.city.name;
+    buttenforsaved.setAttribute("value", data.city.name);
+    buttenforsaved.setAttribute("onclick", 'callingsavedData(event)');
+    buttenforsaved.innerHTML = data.city.name;
     form.appendChild(divforsaved);
     divforsaved.appendChild(buttenforsaved);
+
+ 
+
+
 }
 
 
+let callingsavedData = function (event) {
+    event.preventDefault();
+    console.log("hi");
+    let savedcity = event.target.getAttribute('value');
+    let savedCityobject = JSON.parse(localStorage.getItem(savedcity));
+    console.log(savedCityobject.list[0]);
+    todaysWeather(savedCityobject);
+    date1forecast(savedCityobject);
+    date2forecast(savedCityobject);
+    date3forecast(savedCityobject);
+    date4forecast(savedCityobject);
+    date5forecast(savedCityobject);
+
+
+
+};
 
