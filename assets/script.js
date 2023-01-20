@@ -14,8 +14,8 @@ searchBtn.addEventListener('click', getApi);
 
 function getApi(event) {
     event.preventDefault();
-    let result = userCity.value;
-    let Citytosearch = result.toUpperCase();
+    let Citytosearch = userCity.value;
+    //let Citytosearch = result.toUpperCase();
     if (Citytosearch) {
         let requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + Citytosearch + '&appid=fe5f18ad8da81e94eabca7fc60f10944&units=metric';
         fetch(requestUrl)
@@ -193,7 +193,7 @@ function showingSearchedcity(data) {
     let buttenforsaved = document.createElement("button");
     buttenforsaved.setAttribute("id", "savedcityBtn");
     buttenforsaved.setAttribute("class", "btn btn-primary savedcityBtn");
-    buttenforsaved.setAttribute("value", data.city.name);
+    buttenforsaved.setAttribute("value", userCity.value);
     buttenforsaved.setAttribute("onclick", 'callingsavedData(event)');
     buttenforsaved.innerHTML = data.city.name;
     form.appendChild(divforsaved);
