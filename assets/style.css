@@ -11,19 +11,16 @@
 }
 
 
-#cards {
+#cards,h1{
     display: none;
-    margin-top: 5rem;
-    margin-left: 18rem;
+    margin-left: 1rem;
+    margin-top: 10px;
 }
 
 #cards div li {
     border-bottom: 0;
 }
 
-h1 {
-    margin-top: 10px;
-}
 
 .element {
     margin-left: 30px;
@@ -52,3 +49,4 @@ h1 {
     font-size: 20px;
     font-weight: bold;
 }
+

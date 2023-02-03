@@ -2,10 +2,14 @@
 let searchBtn = document.querySelector("#search");
 let userCity = document.querySelector("#cityInput")
 let TodayWeather = document.querySelector("#todayweather");
-let forecastCard = document.querySelector("#cards");
+let days = document.querySelector("#days");
+let cards = document.querySelector("#cards");
+let forecasth1 = document.querySelector("#days");
 let form = document.querySelector("#form");
 
+let result = document.querySelector("#result");
 
+let count = 0;
 
 
 
@@ -15,7 +19,6 @@ searchBtn.addEventListener('click', getApi);
 function getApi(event) {
     event.preventDefault();
     let Citytosearch = userCity.value;
-    //let Citytosearch = result.toUpperCase();
     if (Citytosearch) {
         let requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + Citytosearch + '&appid=fe5f18ad8da81e94eabca7fc60f10944&units=metric';
         fetch(requestUrl)
@@ -25,11 +28,7 @@ function getApi(event) {
             .then(function (data) {
                 localStorage.setItem(Citytosearch, JSON.stringify(data));
                 todaysWeather(data);
-                date1forecast(data);
-                date2forecast(data);
-                date3forecast(data);
-                date4forecast(data);
-                date5forecast(data);
+                dateforecast(data);
                 showingSearchedcity(data);
             })
     } else {
@@ -87,103 +86,60 @@ function todaysWeather(data, cityweather) {
     today.appendChild(humiditiy);
 }
 
-function date1forecast(data) {
-    forecastCard.classList = ("class", "d-flex mt-6")
+function dateforecast(data) {
 
-    let date1li1 = document.querySelector("#date1");
-    let date1img = document.querySelector("#date1img");
-    let date1temp = document.querySelector("#date1temp");
-    let date1wind = document.querySelector("#date1wind");
-    let date1humidity = document.querySelector("#date1humidity");
+    if (count !== 0){
+        let section = document.querySelector("#cards");
+        section.remove();
+    }
+
+    let section = document.createElement("section");
+    section.setAttribute("id","cards")
+    section.setAttribute("class", "d-flex");
+  
+    days.setAttribute("style", "display:block");
+
+    for(i=0,j=7; i<5; i++,j=j+8){
+
+    let div = document.createElement("div");
+    div.classList = "card  border border-4 border-dark"
+    div.setAttribute("style","width: 14rem; margin-right: 24px")
+    let ul = document.createElement("ul");
+    ul.setAttribute("class","list-group")
+
+    let dateli1 = document.createElement("li");
+    dateli1.setAttribute("class", "list-group-item");
+    dateli1.setAttribute("style","font-size:1.4em; font-weight:bold;");
+    let dateimg = document.createElement("li");
+    let img = document.createElement("img");
+    dateimg.setAttribute("class", "list-group-item");
+    img.setAttribute("id", "date1img");
+    let datetemp = document.createElement("li");
+    datetemp.classList ="list-group-item textstyle";
+    let datewind = document.createElement("li");
+    datewind.classList ="list-group-item textstyle";
+    let datehumidity = document.createElement("li");
+    datehumidity.classList ="list-group-item textstyle";
+    
 
 
-    let date1 = dayjs(data.list[7].dt_txt).format('D/MMMM/YYYY');
-    let date1iconurl = "./assets/icons/" + data.list[7].weather[0].icon + ".png";
+    let datejs = dayjs(data.list[j].dt_txt).format('D/MMMM/YYYY');
+    let date1conurl = "./assets/icons/" + data.list[j].weather[0].icon + ".png";
+    dateli1.innerHTML = datejs;
+    img.setAttribute("src", date1conurl);
+    datetemp.innerHTML = "Temp: " + data.list[j].main.temp;
+    datewind.innerHTML = "Wind: " + data.list[j].wind.speed + " Mph";
+    datehumidity.innerHTML = "humidity: " + data.list[j].main.humidity;
 
-    date1li1.innerHTML = date1;
-    date1img.setAttribute("src", date1iconurl);
-    date1temp.innerHTML = "Temp: " + data.list[7].main.temp;
-    date1wind.innerHTML = "Wind: " + data.list[7].wind.speed + " Mph";
-    date1humidity.innerHTML = "humidity: " + data.list[7].main.humidity;
-
-
+    result.appendChild(section);
+    section.appendChild(div);
+    div.appendChild(ul);
+    ul.append(dateli1,dateimg,datetemp,datewind,datehumidity);
+    dateimg.appendChild(img)
+    
+    count++;
+    
 }
-
-function date2forecast(data) {
-
-    let date2li1 = document.querySelector("#date2");
-    let date2img = document.querySelector("#date2img");
-    let date2temp = document.querySelector("#date2temp");
-    let date2wind = document.querySelector("#date2wind");
-    let date2humidity = document.querySelector("#date2humidity");
-
-
-    let date2 = dayjs(data.list[15].dt_txt).format('D/MMMM/YYYY');
-    let date2iconurl = "./assets/icons/" + data.list[15].weather[0].icon + ".png";
-
-    date2li1.innerHTML = date2;
-    date2img.setAttribute("src", date2iconurl);
-    date2temp.innerHTML = "Temp: " + data.list[15].main.temp;
-    date2wind.innerHTML = "Wind: " + data.list[15].wind.speed + " Mph";
-    date2humidity.innerHTML = "humidity: " + data.list[15].main.humidity;
-
-}
-
-function date3forecast(data) {
-
-    let date3li1 = document.querySelector("#date3");
-    let date3img = document.querySelector("#date3img");
-    let date3temp = document.querySelector("#date3temp");
-    let date3wind = document.querySelector("#date3wind");
-    let date3humidity = document.querySelector("#date3humidity");
-
-
-    let date3 = dayjs(data.list[23].dt_txt).format('D/MMMM/YYYY');
-    let date3iconurl = "./assets/icons/" + data.list[23].weather[0].icon + ".png";
-    date3li1.innerHTML = date3;
-    date3img.setAttribute("src", date3iconurl);
-    date3temp.innerHTML = "Temp: " + data.list[23].main.temp;
-    date3wind.innerHTML = "Wind: " + data.list[23].wind.speed + " Mph";
-    date3humidity.innerHTML = "humidity: " + data.list[23].main.humidity;
-
-}
-
-function date4forecast(data) {
-
-    let date4li1 = document.querySelector("#date4");
-    let date4img = document.querySelector("#date4img");
-    let date4temp = document.querySelector("#date4temp");
-    let date4wind = document.querySelector("#date4wind");
-    let date4humidity = document.querySelector("#date4humidity");
-
-
-    let date4 = dayjs(data.list[31].dt_txt).format('D/MMMM/YYYY');
-    let date4iconurl = "./assets/icons/" + data.list[31].weather[0].icon + ".png";
-    date4li1.innerHTML = date4;
-    date4img.setAttribute("src", date4iconurl);
-    date4temp.innerHTML = "Temp: " + data.list[31].main.temp;
-    date4wind.innerHTML = "Wind: " + data.list[31].wind.speed + " Mph";
-    date4humidity.innerHTML = "humidity: " + data.list[31].main.humidity;
-
-
-}
-
-function date5forecast(data) {
-
-    let date5li1 = document.querySelector("#date5");
-    let date5img = document.querySelector("#date5img");
-    let date5temp = document.querySelector("#date5temp");
-    let date5wind = document.querySelector("#date5wind");
-    let date5humidity = document.querySelector("#date5humidity");
-
-
-    let date5 = dayjs(data.list[39].dt_txt).format('D/MMMM/YYYY');
-    let date5iconurl = "./assets/icons/" + data.list[39].weather[0].icon + ".png";
-    date5li1.innerHTML = date5;
-    date5img.setAttribute("src", date5iconurl);
-    date5temp.innerHTML = "Temp: " + data.list[39].main.temp;
-    date5wind.innerHTML = "Wind: " + data.list[39].wind.speed + " Mph";
-    date5humidity.innerHTML = "humidity: " + data.list[39].main.humidity;
 
 }
 
@@ -199,26 +155,15 @@ function showingSearchedcity(data) {
     form.appendChild(divforsaved);
     divforsaved.appendChild(buttenforsaved);
 
- 
-
-
 }
 
 
 let callingsavedData = function (event) {
     event.preventDefault();
-    console.log("hi");
     let savedcity = event.target.getAttribute('value');
     let savedCityobject = JSON.parse(localStorage.getItem(savedcity));
     console.log(savedCityobject.list[0]);
     todaysWeather(savedCityobject);
-    date1forecast(savedCityobject);
-    date2forecast(savedCityobject);
-    date3forecast(savedCityobject);
-    date4forecast(savedCityobject);
-    date5forecast(savedCityobject);
-
-
-
+    dateforecast(savedCityobject);
 };
 
