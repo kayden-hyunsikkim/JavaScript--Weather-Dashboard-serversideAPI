@@ -20,7 +20,7 @@ function getGEO(event) {
     event.preventDefault();
     let Citytosearch = userCity.value;
     if (Citytosearch) {
-        let requestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${Citytosearch}&limit=5&appid=fe5f18ad8da81e94eabca7fc60f10944`;
+        let requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${Citytosearch}&limit=5&appid=fe5f18ad8da81e94eabca7fc60f10944`;
         fetch(requestUrl)
             .then(function (response) {
                 return response.json();
