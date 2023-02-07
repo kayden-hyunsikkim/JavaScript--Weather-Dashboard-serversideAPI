@@ -9,16 +9,19 @@ let form = document.querySelector("#form");
 
 let result = document.querySelector("#result");
 
+
 let count = 0;
+let Citytosearch = "";
 
-
-
+//application starts working when the button clicked.
 searchBtn.addEventListener('click', getGEO);
 
 
+//function to get GEO data(lat and lon) with city name.
 function getGEO(event) {
     event.preventDefault();
-    let Citytosearch = userCity.value;
+    let Capitalisecityname = userCity.value.charAt(0).toUpperCase() + userCity.value.slice(1);
+    Citytosearch = Capitalisecityname;
     if (Citytosearch) {
         let requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${Citytosearch}&limit=5&appid=fe5f18ad8da81e94eabca7fc60f10944`;
         fetch(requestUrl)
@@ -36,6 +39,7 @@ function getGEO(event) {
 }
 
 
+//function to get weather data where user wants with lat and lon.
 function getApi(data) {
     let lat = data[0].lat;
     let lon = data[0].lon;
@@ -46,7 +50,7 @@ function getApi(data) {
         return response.json();
     })
     .then(function (data) {
-        localStorage.setItem(`${userCity.value}`, JSON.stringify(data));
+        localStorage.setItem(`${Citytosearch}`, JSON.stringify(data));
         todaysWeather(data);
         dateforecast(data);
         showingSearchedcity(data);
@@ -55,7 +59,7 @@ function getApi(data) {
 }
 
 
-
+//function showing today's weather data.
 function todaysWeather(data, cityweather) {
 
     TodayWeather.textContent = cityweather;
@@ -76,7 +80,11 @@ function todaysWeather(data, cityweather) {
 
     headingToday.setAttribute("class", "element");
     headingToday.setAttribute("style", "display:inline-block;");
-    headingToday.innerHTML = userCity.value + " " + date;
+    if(userCity.value !==  data.city.name ){
+    headingToday.innerHTML = Citytosearch + " " + date;
+    } else { 
+        headingToday.innerHTML = data.city.name + " " + date;
+    }
 
     img.setAttribute("src", iconurl);
     img.setAttribute("id", "img");
@@ -104,6 +112,7 @@ function todaysWeather(data, cityweather) {
     today.appendChild(humiditiy);
 }
 
+//function showing 5days forecast weather data.
 function dateforecast(data) {
 
     if (count !== 0) {
@@ -169,21 +178,22 @@ function dateforecast(data) {
 }
 
 
+//function showing searched cities data history
 function showingSearchedcity(data) {
     let divforsaved = document.createElement("div");
     let buttenforsaved = document.createElement("button");
     buttenforsaved.setAttribute("id", "savedcityBtn");
     buttenforsaved.setAttribute("class", "btn btn-primary savedcityBtn");
-    buttenforsaved.setAttribute("value", userCity.value);
+    buttenforsaved.setAttribute("value", Citytosearch);
     buttenforsaved.setAttribute("onclick", 'callingsavedData(event)');
-    buttenforsaved.innerHTML = userCity.value;
+    buttenforsaved.innerHTML = Citytosearch;
     form.appendChild(divforsaved);
     divforsaved.appendChild(buttenforsaved);
 
 }
 
-
-let callingsavedData = function (event) {
+//function showing searched city's data when the button clicked
+const callingsavedData = function (event) {
     event.preventDefault();
     let savedcity = event.target.getAttribute('value');
     let savedCityobject = JSON.parse(localStorage.getItem(savedcity));
