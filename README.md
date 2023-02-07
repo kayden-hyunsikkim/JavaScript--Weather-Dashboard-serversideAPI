@@ -28,8 +28,8 @@ N/A<br><br>
 
 URL = https://kayden-hyunsikkim.github.io/JavaScript-Weather-Dashboard-serversideAPI/<br><br>
 
-![webpage image](./assets/screenshot/Top.jpg)
-![webpage image](./assets/screenshot/bottom.jpg)
+![webpage image](./assets/screenshot/screenshot.jpg)
+
 
 (screenshot image could be slitely different with the web application)
 
