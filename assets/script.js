@@ -183,7 +183,7 @@ function showingSearchedcity(data) {
     let divforsaved = document.createElement("div");
     let buttenforsaved = document.createElement("button");
     buttenforsaved.setAttribute("id", "savedcityBtn");
-    buttenforsaved.setAttribute("class", "btn btn-primary savedcityBtn");
+    buttenforsaved.setAttribute("class", "btn btn-primary savedcityBtn  w-100 d-inline-block");
     buttenforsaved.setAttribute("value", Citytosearch);
     buttenforsaved.setAttribute("onclick", 'callingsavedData(event)');
     buttenforsaved.innerHTML = Citytosearch;
