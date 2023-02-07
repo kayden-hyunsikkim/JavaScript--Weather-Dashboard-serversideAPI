@@ -46,22 +46,21 @@ function getApi(data) {
 
     let requestUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=fe5f18ad8da81e94eabca7fc60f10944&units=metric`;
     fetch(requestUrl)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        localStorage.setItem(`${Citytosearch}`, JSON.stringify(data));
-        todaysWeather(data);
-        dateforecast(data);
-        showingSearchedcity(data);
-    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            localStorage.setItem(`${Citytosearch}`, JSON.stringify(data));
+            todaysWeather(data);
+            dateforecast(data);
+            showingSearchedcity(data);
+        })
 
 }
 
 
 //function showing today's weather data.
 function todaysWeather(data, cityweather) {
-
     TodayWeather.textContent = cityweather;
 
     let date = dayjs().format('(D/MMMM/YYYY)');
@@ -78,14 +77,14 @@ function todaysWeather(data, cityweather) {
     today.classList = "border border-4 border-dark ms-3 mt-3";
     today.setAttribute("style", "width: 76rem; height: 14rem;");
 
+
     headingToday.setAttribute("class", "element");
     headingToday.setAttribute("style", "display:inline-block;");
-    if(userCity.value !==  data.city.name ){
-    headingToday.innerHTML = Citytosearch + " " + date;
-    } else { 
-        headingToday.innerHTML = data.city.name + " " + date;
-    }
 
+
+    headingToday.innerHTML = data.city.name + " " + date;
+  
+  
     img.setAttribute("src", iconurl);
     img.setAttribute("id", "img");
 
